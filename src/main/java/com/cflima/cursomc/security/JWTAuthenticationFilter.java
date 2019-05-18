@@ -17,6 +17,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.cflima.cursomc.dto.CredenciaisDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Filtro para realização da autenticação interceptando a requisição de login
+ * validando username/senha, criando token e adicionando o mesmo no cabeçalho da requisição.
+ * 
+ * Filtro registrado no método Config da classe SecurityConfig.
+ *
+ */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private AuthenticationManager authManager;
