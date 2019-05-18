@@ -22,7 +22,7 @@ public class ProdutoResource {
 	
 	@Autowired
 	private ProdutoService service;
-
+	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<Produto> find(@PathVariable Integer id) {
 		Produto obj = service.find(id);
@@ -32,11 +32,12 @@ public class ProdutoResource {
 	@GetMapping
 	public ResponseEntity<Page<ProdutoDTO>> findPage(
 			@RequestParam(value="nome", defaultValue="") String nome,
-			@RequestParam(value="categorias", defaultValue="") String categorias,
+			@RequestParam(value="categorias", defaultValue="1") String categorias,
 			@RequestParam(value="page", defaultValue="0") Integer page,
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
 			@RequestParam(value="orderBy", defaultValue="nome") String orderBy,
 			@RequestParam(value="direction", defaultValue="ASC") String direction) {
+		
 		
 		List<Integer> ids = URL.decodeIntList(categorias);
 		String nomeDecoded = URL.decodeParam(nome);
