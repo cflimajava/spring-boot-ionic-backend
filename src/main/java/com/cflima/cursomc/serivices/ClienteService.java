@@ -15,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cflima.cursomc.domain.Cidade;
 import com.cflima.cursomc.domain.Cliente;
 import com.cflima.cursomc.domain.Endereco;
+import com.cflima.cursomc.domain.enums.Perfil;
 import com.cflima.cursomc.domain.enums.TipoCliente;
 import com.cflima.cursomc.dto.ClienteDTO;
 import com.cflima.cursomc.dto.ClienteNewDTO;
 import com.cflima.cursomc.repositories.ClienteRepository;
 import com.cflima.cursomc.repositories.EnderecoRepository;
+import com.cflima.cursomc.security.UserSS;
+import com.cflima.cursomc.serivices.exceptions.AuthorizationException;
 import com.cflima.cursomc.serivices.exceptions.DataIntegrityException;
 import com.cflima.cursomc.serivices.exceptions.ObjectNotFoundException;
 
@@ -35,6 +38,12 @@ public class ClienteService {
 	private BCryptPasswordEncoder passwordEncoder;
 
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Cliente> obj = rep.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado !!! ID: " + id + ", Tipo: " + Cliente.class.getName()));
