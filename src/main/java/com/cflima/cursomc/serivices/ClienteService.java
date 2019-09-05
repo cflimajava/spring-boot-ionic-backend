@@ -35,6 +35,7 @@ public class ClienteService {
 	@Autowired
 	private EnderecoRepository repEnd;
 	
+	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 	public Cliente find(Integer id) {
